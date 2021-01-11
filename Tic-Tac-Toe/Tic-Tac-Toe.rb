@@ -65,11 +65,7 @@ class TicTacToe
         else
             play_round
         end
-
-
     end
-
-
 end
 
 
