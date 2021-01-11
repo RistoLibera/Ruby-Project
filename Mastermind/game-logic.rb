@@ -25,13 +25,17 @@ module GameLogic
 
         if all_fits == 4 && counter <= 12
             puts "We have a winner!"
+            puts ""
             return "win before 12"
         elsif counter == 11
             puts "This is the final guess"
+            puts ""
         elsif counter == 12
             puts "Game Over!"
+            puts ""
         else
             puts "Please keep trying!"
+            puts ""
         end
     end
 
@@ -40,4 +44,9 @@ module GameLogic
         input = gets.chomp.to_i
         return "again" if input == 1
     end
+
+    # Computer logic
+        
 end
+
+

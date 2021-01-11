@@ -19,8 +19,6 @@ class PlayGame
     end
 end
 
-new_game = PlayGame.new
-new_game.start_game
 
 
     

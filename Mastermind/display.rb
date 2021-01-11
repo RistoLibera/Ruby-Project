@@ -18,8 +18,8 @@ module Display
         }[condition]
     end
 
-    def guess_output(array)
-        array.each do |num|
+    def guess_output(guess_array)
+        guess_array.each do |num|
             print puzzle_color(num)
         end
     end
