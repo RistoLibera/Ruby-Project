@@ -6,8 +6,7 @@ class HumanSolver
     include GameLogic
 
     def initialize
-        @puzzle = [6, 4, 3, 1]
-        # @puzzle = [rand(1..6), rand(1..6), rand(1..6), rand(1..6)]
+        @puzzle = [rand(1..6), rand(1..6), rand(1..6), rand(1..6)]
         @puzzle = @puzzle.map { |i| i.to_s}
         @human_guess = []
     end
@@ -15,13 +14,10 @@ class HumanSolver
     def human_guess
         puts "Please input FOUR numbers from 1 to 6 for a start guess"
         @counter = 1
-
+        p @puzzle
         until @counter > 12 do
             @human_guess = get_input()
-            puts ""
-            puts "Turn #{@counter}"
-            puts ""
-            guess_output(@human_guess)
+            guess_output(@human_guess, @counter)
             clue_output(@puzzle, @human_guess)
             break if result_check(@puzzle, @human_guess, @counter) == "win before 12"
             @counter += 1
@@ -30,5 +26,3 @@ class HumanSolver
 end
 
 
-human =HumanSolver.new
-human.human_guess

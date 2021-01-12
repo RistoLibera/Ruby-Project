@@ -18,17 +18,21 @@ module Display
         }[condition]
     end
 
-    def guess_output(guess_array)
+    def guess_output(guess_array, counter)
+        puts ""
+        puts "Turn #{counter}"
+        puts ""
         guess_array.each do |num|
             print puzzle_color(num)
         end
     end
 
     def clue_output(puzzle_array,guess_array)
-        clue_number = clue_check(puzzle_array,guess_array)
+        all_fits = all_fits(puzzle_array, guess_array)
+        color_fits = color_fits(puzzle_array, guess_array)
         print "  Clues:  "
-        clue_number[0].times { print clue_color("all fits") }
-        (clue_number[1] - clue_number[0]).times { print clue_color("color fits") }
+        all_fits.times { print clue_color("all fits") }
+        (color_fits - all_fits).times { print clue_color("color fits") }
         puts ""
         puts ""
     end

@@ -2,27 +2,42 @@
 module GameLogic
     def get_input
         input = gets.chomp
-        return input.to_s.split("") if input.to_i.between?(1111, 6666)
+        return input.split("") if input.to_i.between?(1111, 6666)
         puts "Four Number!"
         get_input() 
     end
 
-    def clue_check(puzzle_array,guess_array)
+    def all_fits(puzzle_array,guess_array)
         all_fits = 0
-        color_fits = 0
         i = 0
         until i == 4 do
             all_fits += 1 if puzzle_array[i] == guess_array[i]
-            color_fits += 1 if puzzle_array.sort[i] == guess_array.sort[i]
             i += 1
         end
-        return [all_fits, color_fits]
+        return all_fits
+    end
+
+    def color_fits(puzzle_array,guess_array)
+        puzzle_array = puzzle_array.sort
+        unfits = puzzle_array.length
+        guess_array = guess_array.sort
+        color_fits = 0
+        i = 0
+
+        until i == 4 do
+            j = 0
+            until j == unfits do
+                puzzle_array.delete_at(j) if guess_array[i] == puzzle_array[j]
+                j += 1
+            end
+            unfits = puzzle_array.length
+            i += 1
+        end
+        color_fits = 4 - unfits
     end
 
     def result_check(puzzle_array, guess_array,counter)
-        the_fits = clue_check(puzzle_array, guess_array)
-        all_fits = the_fits[0]
-
+        all_fits = all_fits(puzzle_array, guess_array)
         if all_fits == 4 && counter <= 12
             puts "We have a winner!"
             puts ""
@@ -46,7 +61,10 @@ module GameLogic
     end
 
     # Computer logic
-        
+
+    
 end
+
+
 
 
