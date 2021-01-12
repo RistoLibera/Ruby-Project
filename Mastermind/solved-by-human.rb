@@ -12,9 +12,9 @@ class HumanSolver
     end
     
     def human_guess
+        puts ""
         puts "Please input FOUR numbers from 1 to 6 for a start guess"
         @counter = 1
-        p @puzzle
         until @counter > 12 do
             @human_guess = get_input()
             guess_output(@human_guess, @counter)

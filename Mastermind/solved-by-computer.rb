@@ -11,13 +11,14 @@ class ComputerSolver
         @puzzle = []
         @com_input = []
         @counter = 1
-        @impossible_array = []
     end
     
     def computer_guess
+        puts ""
         puts "Please input your puzzle"
         @puzzle = get_input()
         start_guess()
+        continue_guess() unless all_fits(@puzzle,@com_input) == 4
 
     end
 
@@ -28,20 +29,36 @@ class ComputerSolver
 
     def start_color(numbers, index = 0, guess_array = [])
         guess_array << numbers[index] until guess_array.length == 4
-        all_fits = all_fits(@puzzle, guess_array)
         color_fits = color_fits(@puzzle, guess_array)
-
+        guess_output(guess_array, @counter)
+        clue_output(@puzzle, guess_array)
         guess_array.pop(4 - color_fits)
-        @counter += 1
+        return guess_array if result_check(@puzzle, guess_array, @counter) == "win before 12"
         return guess_array if color_fits == 4
+        @counter += 1
+        sleep(1)
         start_color(numbers, index + 1, guess_array)
     end
 
-    def start_impossibility(all_fits, color_fits)
-        
+    def continue_guess
+        com_mind = @com_input.permutation.to_a.uniq
+        p com_mind
+        until @counter > 12 do
+            this_guess = com_mind.sample
+            guess_output(this_guess, @counter)
+            clue_output(@puzzle, this_guess)
+            break if result_check(@puzzle, this_guess, @counter) == "win before 12"
+            sleep(1)
+            com_mind.delete(this_guess) unless all_fits(@puzzle,this_guess) == 4
+            @counter += 1
+        end
+    end
+
+    
+
+
 
 
 end
 
-computer = ComputerSolver.new
-computer.computer_guess
+
