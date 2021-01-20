@@ -1,9 +1,7 @@
 
 
 module Hangman
-
- 
-    def key_words
+    def get_keywords
         dictionary = File.read("5desk.txt")
         words = []
         dictionary.each_line do |word|
@@ -17,15 +15,21 @@ module Hangman
         return words.sample.split("")
     end
 
-    def generate_tip
+    def generate_tip(keyword)
         tip = []
-        tip_length = key_words().length
+        tip_length = keyword.length
         tip_length.times { tip << "_" }
         return tip
     end
 
-
+    def compare(input,keyword,tip)
+        length = keyword.length
+        i = 0
+        until i == length do
+            tip[i] = input if keyword[i] == input
+            i += 1
+        end
+    end
     
-
 end
 
