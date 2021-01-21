@@ -15,6 +15,7 @@ class Game
         if @input == 1
             puts "Let's play a new game!"
         elsif @input == 2
+            puts ""
             filenames = Dir.glob("save/*")
             filenames.each do |filename| 
                 puts filename.slice(5, filename.length)
