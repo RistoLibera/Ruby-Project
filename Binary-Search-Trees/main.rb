@@ -53,28 +53,9 @@ class Tree
         return node 
     end
 
-    def pretty_print(node = @root, prefix = '', is_left = true)
-        pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
-        puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
-        pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
-    end
-
     def find(value, node = @root)
-        
-        if value < node.data
-            node.left = find(value, node.left)
-        elsif value > node.data
-            node.right = find(value, node.right)
-        elsif value == node.data
-            puts "Node Value: #{node.data}"
-            puts "Node Left: #{node.left.data}" unless node.left.nil?
-            puts "Node Right: #{node.right.data}" unless node.right.nil?
-            return node
-        else
-            p "None is found."
-            return
-        end
-        return node
+        return node if node.nil? || node.data == value
+        value < node.data ? find(value, node.left) : find(value, node.right)
     end
 
     def level_order(node = @root, queue = [])
@@ -114,6 +95,55 @@ class Tree
         return queue
     end
 
+    def depth(node = @root, edges = 0)
+        value = node.data
+        if value < node.data
+            edges += 1
+            depth(node.left, edges)
+            elsif value > node.data
+            edges += 1
+            depth(node.right, edges)
+        elsif value == node.data
+            return edges 
+        else
+            p "None is found."
+            return
+        end
+    end
+
+    def height(node = @root, left = 0, right = 0)
+        return -1 if node.nil?
+        left += 1 + height(node.left)
+        right += 1 + height(node.right)
+        left > right ? left : right
+    end
+
+    def balance?(node = @root, queue = [], counter = 0)
+        if node.nil?
+            queue << counter
+            return
+        end
+        counter += 1
+        balance?(node.left, queue, counter)
+        balance?(node.right, queue, counter)
+        if queue.uniq.length > 2
+            return "Unbalanced"
+        elsif queue.uniq.length == 2 && (queue.uniq[0] - queue.uniq[1]).abs <= 1
+            return "Balanced" 
+        else 
+            return "Balanced" 
+        end
+    end
+
+    def rebalance
+        @root = build_tree(self.level_order().sort)
+    end
+
+    def pretty_print(node = @root, prefix = '', is_left = true)
+        pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+        puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+        pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+    end
 end
 
 
@@ -121,9 +151,20 @@ new_tree = Tree.new([2, 3, 4, 5, 10, 7, 8, 1])
 new_tree.pretty_print
 new_tree.insert(13)
 new_tree.delete(1)
-new_tree.find(5)
+# new_tree.pretty_print
+# p new_tree.level_order
+# p new_tree.preorder
+# p new_tree.inorder
+# p new_tree.postorder
+# a = new_tree.find(8)
+# puts new_tree.height(a)
+# puts new_tree.balance?
+# new_tree.delete(10)
+# new_tree.delete(13)
+# new_tree.pretty_print
+# puts new_tree.balance?
+# puts ""
 new_tree.pretty_print
-new_tree.level_order
-p new_tree.preorder
-p new_tree.inorder
-p new_tree.postorder
+puts new_tree.balance?
+new_tree.rebalance
+new_tree.pretty_print
