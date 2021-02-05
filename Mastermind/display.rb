@@ -1,4 +1,4 @@
-#Display Support
+
 module Display
     def puzzle_color(number)
         {

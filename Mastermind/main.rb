@@ -2,7 +2,7 @@ require_relative "display.rb"
 require_relative "game_logic.rb"
 require_relative "solved_by_computer"
 require_relative "solved_by_human"
-#Play
+
 class PlayGame
     def initialize
         @player = 0
