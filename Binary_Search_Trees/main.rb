@@ -1,5 +1,5 @@
 require_relative "node.rb"
-
+##
 class Tree
 
     def initialize(array)
